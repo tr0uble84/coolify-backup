@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor / IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# Local backup output (if script is ever run from this dir)
+coolify-backups/
+volume-backup/
+*.dump
+*.tar.gz
+
+# Env / secrets (never commit)
+.env
+.env.local
+*.pem

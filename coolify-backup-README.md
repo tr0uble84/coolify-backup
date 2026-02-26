@@ -9,10 +9,12 @@ Bash script for a **full Coolify backup** on the server where Coolify runs (Linu
 | SSH keys (for managed servers) | `ssh/keys/` |
 | All Docker volumes (app data) | `volumes/<name>-backup.tar.gz` |
 
+**Repository contents:** `coolify-full-backup.sh`, `setup-cron.sh`, `coolify-backup-README.md`, `.gitignore`.
+
 ## Usage on your Coolify server
 
-1. Copy `coolify-full-backup.sh` to the Coolify host (e.g. via SCP).
-2. Make it executable and run:
+1. Copy `coolify-full-backup.sh` (and optionally `setup-cron.sh`) to the Coolify host (e.g. via SCP or git clone).
+2. Make scripts executable and run a backup:
 
 ```bash
 chmod +x coolify-full-backup.sh
@@ -169,15 +171,48 @@ Replace `VOLUME_NAME` and the backup path with your real volume name and path (e
 
 Official docs: [Backup and Restore Coolify](https://coolify.io/docs/knowledge-base/how-to/backup-restore-coolify), [Migrate applications (volumes)](https://coolify.io/docs/knowledge-base/how-to/migrate-apps-different-host).
 
-## Cron (optional)
+## Automate backups (cron)
+
+Use `setup-cron.sh` to install or remove the cron job on your Coolify server.
+
+**First time:** copy the backup script to `/root/` and make it executable:
 
 ```bash
-# Daily at 2 AM
-0 2 * * * /root/coolify-full-backup.sh
+cp coolify-full-backup.sh /root/
+chmod +x /root/coolify-full-backup.sh
 ```
 
-Ensure `BACKUP_ROOT` is set in cron if needed, e.g.:
+**Install cron** (daily 2 AM, 30-day retention, full volumes):
 
 ```bash
-0 2 * * * BACKUP_ROOT=/root/coolify-backups /root/coolify-full-backup.sh
+chmod +x setup-cron.sh
+./setup-cron.sh install
+```
+
+**Other commands:**
+
+```bash
+./setup-cron.sh status   # show cron and settings
+./setup-cron.sh remove  # remove the backup cron job
+```
+
+**Override defaults** with environment variables:
+
+```bash
+RETENTION_DAYS=7 BACKUP_VOLUMES=false ./setup-cron.sh install
+SCRIPT_PATH=/opt/scripts/coolify-full-backup.sh ./setup-cron.sh install
+```
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SCRIPT_PATH` | `/root/coolify-full-backup.sh` | Path to the backup script on the server |
+| `BACKUP_ROOT` | `/root/coolify-backups` | Where backups are stored |
+| `RETENTION_DAYS` | `30` | Delete backups older than N days |
+| `BACKUP_VOLUMES` | `true` | `false` = Coolify only, no app volumes |
+
+**Manual cron** (if you prefer to edit crontab yourself):
+
+```bash
+# Daily at 2 AM, 30-day retention, full volumes
+0 2 * * * BACKUP_ROOT=/root/coolify-backups RETENTION_DAYS=30 /root/coolify-full-backup.sh
 ```
