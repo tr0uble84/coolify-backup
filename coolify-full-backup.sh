@@ -1,6 +1,7 @@
 #!/bin/bash
 # =============================================================================
 # Coolify Full Backup Script
+# Author: jay behi
 # Backs up: Coolify DB, .env, SSH keys, and optionally all app Docker volumes
 # Run on the server where Coolify is installed (Linux)
 # =============================================================================

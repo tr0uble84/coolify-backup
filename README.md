@@ -1,5 +1,7 @@
 # Coolify Full Backup Script
 
+**Author:** jay behi
+
 Bash script for a **full Coolify backup** on the server where Coolify runs (Linux). It backs up:
 
 | What | Where in backup |

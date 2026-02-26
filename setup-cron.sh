@@ -1,6 +1,7 @@
 #!/bin/bash
 # =============================================================================
 # Install or remove automated Coolify backups via cron
+# Author: jay behi
 # Run on the Coolify server (Linux) as root or with sudo
 # =============================================================================
 
