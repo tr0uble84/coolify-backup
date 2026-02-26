@@ -9,7 +9,7 @@ Bash script for a **full Coolify backup** on the server where Coolify runs (Linu
 | SSH keys (for managed servers) | `ssh/keys/` |
 | All Docker volumes (app data) | `volumes/<name>-backup.tar.gz` |
 
-**Repository contents:** `coolify-full-backup.sh`, `setup-cron.sh`, `coolify-backup-README.md`, `.gitignore`.
+**Repository contents:** `coolify-full-backup.sh`, `setup-cron.sh`, `README.md`, `.gitignore`.
 
 ## Usage on your Coolify server
 
